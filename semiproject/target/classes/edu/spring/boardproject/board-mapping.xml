@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board"> <!--jstl 태그 쓸때 <c:foreach처럼 emp.emplist -->
+
+<select id="selectlist" resultType="bdVO"  >
+		select bd_no, bd_name, bd_title , bd_content, bd_date
+		from stsboard
+</select>
+
+<select id="selectOne" resultType="bdVO" parameterType="int">
+	select bd_no, bd_name, bd_title , bd_content, bd_date
+	from stsboard
+	where bd_no = #{bd_no}
+</select>
+
+<insert id="insert" parameterType="bdVO">
+	insert into stsboard
+	values(stsbd_seq.nextval, #{bd_name}, #{bd_title}, #{bd_content}, sysdate)
+</insert>
+
+<update id="update" parameterType="bdVO">
+	update stsboard
+	set bd_title=#{bd_title}, bd_content=#{bd_content} where bd_no=#{bd_no}
+</update>
+
+<delete id="delete" parameterType="bdVO">
+	delete from stsboard where bd_no=#{bd_no}
+</delete>
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member"> <!--jstl 태그 쓸때 <c:foreach처럼 emp.emplist -->
+
+<select id="login" parameterType="bmVO" resultType="bmVO">
+	select * from bdmember
+	where bm_id= #{bm_id} and bm_pw=#{bm_pw}
+
+</select>
+
+<insert id="register" parameterType="bmVO" >
+insert into bdmember values(bdno_seq.nextval, #{bm_id} , #{bm_pw}, #{bm_name}, #{bm_addr}, #{bm_phone}, #{bm_email})
+</insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

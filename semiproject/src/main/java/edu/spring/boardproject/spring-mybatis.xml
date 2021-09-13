@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!--스프링은 모든 객체를 다룰때 ioc, di : @ 또는 <bean 을써서 객체생성..  -->
+<!--1.DATASOURCE 설정 - mybatis-config.xml으로 옮겨올거다  -->
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+			<property name="username" value="hr"/>
+			<property name="password" value="hr"/>
+</bean>
+
+<!-- 2.config파일, sql매핑파일 --> <!-- SqlSessionFactory factory= builder.build(Resources.getResourceAsReader("mybatis/mybatis-config.xml") ); -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource" /> 
+	<property name="configLocation" value="classpath:edu/spring/boardproject/mybatis-config.xml" />
+	<property name="mapperLocations" value="classpath:edu/spring/boardproject/*-mapping.xml" /> <!-- 데이터소스,config,mapperlocations가 필요하다, *-mapping 매퍼파일 다 쓰겟다 -->
+</bean>
+
+<!--3.SqlSessionTemplate(spring)  SqlSession(mybatis) sql세션 객체로 만드는 설정  --> <!-- SqlSession session = factory.openSession(true);  -->
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" >
+	<constructor-arg ref="sqlSessionFactory"> </constructor-arg> <!-- api를 만들때 생성자가 필요한데 sqlSessionFactory를 만들어줘야한다 -->
+</bean>
+
+<!--context 태그를 쓰려면 namespace에서 체크-->
+
+<!-- 4. DAO VO SERVICE 에서 @사용하기 위해 생성..mvc 관련(@controller,@requestmapping 은 못읽는다) -->
+<context:component-scan base-package="edu.spring.boardproject"></context:component-scan>
+
+</beans>
